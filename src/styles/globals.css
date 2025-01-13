@@ -19,3 +19,37 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('/fonts/GmarketSansTTFBold.ttf') format('truetype'); /* 볼드 폰트 */
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('/fonts/GmarketSansTTFLight.ttf') format('truetype'); /* 라이트 폰트 */
+  font-weight: 300; /* 라이트 폰트의 경우 일반적으로 300 사용 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GmarketSans';
+  src: url('/fonts/GmarketSansTTFMedium.ttf') format('truetype'); /* 미디엄 폰트 */
+  font-weight: 500; /* 미디엄 폰트의 경우 일반적으로 500 사용 */
+  font-style: normal;
+}  
+
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  src: url('/fonts/NotoSansKR-Medium.ttf') format('truetype');     
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  src: url('/fonts/NotoSansKR-Bold.ttf') format('truetype');     
+  font-weight: 500;
+  font-style: normal;
+}
