@@ -119,7 +119,7 @@ const HomeContainer = styled.div`
   margin: 0 auto;
   background: transparent; /* #FF9933; */
   padding-bottom: 20px; /* 하단 패딩만 유지 */
-  overflow: hidden;
+  overflow: visible;
   
   /* 아이폰 노치 영역 대응 */
   padding-top: env(safe-area-inset-top);
@@ -176,7 +176,7 @@ const SearchIcon = styled.img`
 
 const SearchBarContainer = styled.div`
   width: 100%;
-  padding: 2px; /* 테두리 두께 */
+  padding: 3px; /* 테두리 두께 */
   border-radius: 24px; /* 둥근 모서리 설정 */
   background: linear-gradient(to right, #ff7e5f, #feb47b); /* 그라데이션 배경 */
 `
@@ -184,7 +184,7 @@ const SearchBarContainer = styled.div`
 const SearchBar = styled.input`
   width: 100%;
   height: 48px;
-  padding: 0 20px 0 45px; /* 왼쪽 패딩 증가 */
+  padding: 0 00px 0 20px; /* 왼쪽 패딩 증가 */
   border-radius: 22px; /* 내부 요소의 둥근 모서리 설정 */
   border: none; /* 기본 테두리 제거 */
   background: white; /* 배경색 설정 */
@@ -265,17 +265,16 @@ export default function HomePage() {
   ];*/
 
   const secondIconList = [
-    { src: "/Group 47.svg", label: "" },
-    { src: "/Group 46.svg", label: "" },
-    { src: "/Group 47.svg", label: "" },
-    { src: "/Group 46.svg", label: "" },
-
+    { src: '/Group 47.svg', label: '디지털 교육', path: '/category' },
+    { src: '/Group 46.svg', label: '사회 문제 해결', path: '/category' },
+    { src: '/Group 47.svg', label: '헬스케어', path: '/category' },
+    { src: '/Group 46.svg', label: '라이프스타일', path: '/category' },
   ];
 
   return (
     <HomeContainer>
       <Header>
-        <Link href="/">
+        <Link href="/home">
           <LogoButton>
           <StyledLogo src="/LogoF.svg" alt="새로운 로고" />
           </LogoButton>
@@ -312,13 +311,15 @@ export default function HomePage() {
                 <IconContainer>
                   {secondIconList.map((icon, idx) => (
                     <IconBox key={idx}>
-                      <Button>
-                        <img
-                          src={icon.src}
-                          alt={icon.label}
-                          style={{ width: "160px", height: "80px", display: "block" }} // 크기 조정
-                        />
-                      </Button>
+                      <Link href={icon.path}>
+                        <Button>
+                          <img
+                            src={icon.src}
+                            alt={icon.label}
+                            style={{ width: "160px", height: "80px", display: "block" }} // 크기 조정
+                          />
+                        </Button>
+                      </Link>
                       <Label>{icon.label}</Label>
                     </IconBox>
                   ))}

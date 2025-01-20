@@ -36,7 +36,7 @@ export default function LandingPage() {
   return (
     <LandingContainer>
       <ReactPlayer
-        url="https://res.cloudinary.com/ddkszp9ok/video/upload/v1735359090/12234_q7skff.mp4"
+        url="https://res.cloudinary.com/ddkszp9ok/video/upload/v1737025475/%EB%A9%8B%EC%8B%9C_%EB%9E%9C%EB%94%A9%EC%98%81%EC%83%81_%EC%88%98%EC%A0%95_di2t2y.mp4"
         playing
         loop
         muted
