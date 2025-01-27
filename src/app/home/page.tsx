@@ -13,8 +13,9 @@ const ServiceTitle = styled.h2`
   font-family : "GmarketSans";
   font-size: 15px;
   font-weight: 700;
-  margin-top: -8px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-left: 10px;
 `;
 
 
@@ -79,6 +80,9 @@ const IconBox = styled.div`
   flex-direction: column;   /* 위아래(수직)로 배치 */
   align-items: center;      /* 수평 중앙 정렬 */
   gap: 0px;                 /* 아이콘과 텍스트 사이 여백 */
+  width: 100%;
+  height: auto; /* 원하는 배너 높이 */
+  object-fit: contain;
 `;
 
 const Label = styled.span`
@@ -88,10 +92,12 @@ const Label = styled.span`
 `;
 
 const ContentBox = styled.div`
-  background: white;
+
+  background: transparent;
   border-radius: 12px;
-  border: 2px solid #FF9933;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: none;
+  box-shadow: none;
+  width: 100%;
 
   /* 내부 여백을 줘서 아이콘이 상단/왼쪽에 바짝 붙지 않도록 */
   padding: 16px;
@@ -106,13 +112,19 @@ const IconContainer = styled.div`
   gap: 10px;           /* 아이콘 간 간격 */
   align-items: flex-start;
   width: 100%;
+  height: auto;
+  objectFit: "contain"
+  
+  
   justify-content: center; 
   /* 필요시 justify-content: center; 
      혹은 space-between, flex-start 등으로 바꿀 수 있습니다 */
+
+
 `;
 
 const HomeContainer = styled.div`
-  max-width: 480px;
+  max-width: 520px;
   min-width: 320px;
   width: 100%;
   min-height: 100vh;
@@ -218,12 +230,14 @@ const ContentArea = styled.div`
   
   /* 테스트를 위한 임시 컨텐츠 - 높이를 200px로 증가 */
   & > div {
-    background: white;
-    height: 200px; /* 기존 100px에서 200px로 변경 */
-    margin-bottom: 16px;
+    background: transparent;
+    height: 250px; /* 기존 100px에서 200px로 변경 */
+    margin-bottom: 20px;
     border-radius: 12px;
+    padding: 0;
     border: none;  /*테두리를 주황색으로 변경 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 선택적: 그림자 효과 추가 */
+    box-shadow: none; /* 0 2px 4px rgba(0, 0, 0, 0.1);선택적: 그림자 효과 추가 */
+
   }
 
   & > div:first-child {
@@ -265,11 +279,14 @@ export default function HomePage() {
   ];*/
 
   const secondIconList = [
-    { src: '/Group 47.svg', label: '디지털 교육', path: '/category' },
-    { src: '/Group 46.svg', label: '사회 문제 해결', path: '/category' },
-    { src: '/Group 47.svg', label: '헬스케어', path: '/category' },
-    { src: '/Group 46.svg', label: '라이프스타일', path: '/category' },
+    { src: '/Group 2.svg', label: '시니어 디지털 교실', path: '/category' },
+    { src: '/Group 3.svg', label: '노후대책 필수 정보', path: '/category' },
+    { src: '/Group 4.svg', label: '건강한 웰빙 습관', path: '/category' },
+    { src: '/Group 5.svg', label: '보이스피싱 퇴치 교육', path: '/category' },
   ];
+
+  const firstRowIcons = secondIconList.slice(0, 2); // 첫 번째 ContentBox용 아이콘 (2개)
+  const secondRowIcons = secondIconList.slice(2, 4); // 두 번째 ContentBox용 아이콘 (2개)
 
   return (
     <HomeContainer>
@@ -299,24 +316,22 @@ export default function HomePage() {
 
       <ContentArea>
         <BannerCarousel />
-        
+
+        <ServiceTitle>멋시 대표 서비스</ServiceTitle>
+
         {Array.from({ length: 10 }).map((_, i) => {
           if (i === 0) {
             return (
-              <ContentBox key={i}>
-                <ServiceTitle>멋시 대표 서비스</ServiceTitle>
+              <ContentBox key="first">
                 <IconContainer>
-
-                </IconContainer>
-                <IconContainer>
-                  {secondIconList.map((icon, idx) => (
+                  {firstRowIcons.map((icon, idx) => (
                     <IconBox key={idx}>
                       <Link href={icon.path}>
                         <Button>
                           <img
                             src={icon.src}
                             alt={icon.label}
-                            style={{ width: "160px", height: "80px", display: "block" }} // 크기 조정
+                            style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} // 크기 조정
                           />
                         </Button>
                       </Link>
@@ -328,12 +343,34 @@ export default function HomePage() {
               </ContentBox>
              
             );
-          }  
-          return <div key={i} />;
-
-        
+          } 
           
+          if (i === 1) {
+            return (
+              <ContentBox key="second">
+                <IconContainer>
+                  {secondRowIcons.map((icon, idx) => (
+                    <IconBox key={idx}>
+                      <Link href={icon.path}>
+                        <Button>
+                          <img
+                            src={icon.src}
+                            alt={icon.label}
+                            style={{ width: '100%', height: '100%', display: 'block', objectFit: "contain" }}
+                          />
+                        </Button>
+                      </Link>
+                      <Label>{icon.label}</Label>
+                    </IconBox>
+                  ))}
+                </IconContainer>
+              </ContentBox>
+            );
+          }
+        
+          return <div key={i} />; /*return null; 하면 나머지 contentbox 사라짐 */
         })}
+      
        
         
     
