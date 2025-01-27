@@ -279,10 +279,10 @@ export default function HomePage() {
   ];*/
 
   const secondIconList = [
-    { src: '/Group 2.svg', label: '시니어 디지털 교실', path: '/category' },
-    { src: '/Group 3.svg', label: '노후대책 필수 정보', path: '/category' },
-    { src: '/Group 4.svg', label: '건강한 웰빙 습관', path: '/category' },
-    { src: '/Group 5.svg', label: '보이스피싱 퇴치 교육', path: '/category' },
+    { src: '/Group 2.svg', label: '시니어 디지털 교실', path: '/category/senior-digital-class' },
+    { src: '/Group 3.svg', label: '노후대책 필수 정보', path: '/category/retirement-info' },
+    { src: '/Group 4.svg', label: '건강한 웰빙 습관', path: '/category/well-being' },
+    { src: '/Group 5.svg', label: '보이스피싱 퇴치 교육', path: '/category/voice-pishing' },
   ];
 
   const firstRowIcons = secondIconList.slice(0, 2); // 첫 번째 ContentBox용 아이콘 (2개)

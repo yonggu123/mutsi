@@ -1,142 +1,133 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import React from 'react';
 import styled from 'styled-components';
+import { useParams } from 'next/navigation'; // Next.js 훅 사용
+import Link from 'next/link';
 
-// 스타일 정의
-const PostContainer = styled.div`
-  max-width: 800px;
+
+
+// 스타일링
+const Container = styled.div`
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  line-height: 1.6;
 `;
 
 const Title = styled.h1`
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 20px;
   text-align: center;
+  margin-bottom: 30px;
 `;
 
-const Section = styled.section`
-  margin-bottom: 40px;
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
 `;
 
-const SectionTitle = styled.h2`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 16px;
-`;
-
-const ContentText = styled.p`
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 16px;
+const Card = styled.div`
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
 `;
 
 const Image = styled.img`
   width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 16px;
+  height: 150px;
+  object-fit: cover;
 `;
 
-const Video = styled.video`
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 16px;
+const CardContent = styled.div`
+  padding: 15px;
 `;
 
-// Mock 데이터
-const blogPosts = {
-  healthcare: {
-    title: '헬스케어: 건강한 삶을 위한 가이드',
-    content: [
-      {
-        type: 'text',
-        data: '헬스케어는 건강한 라이프스타일을 유지하고 질병을 예방하는 데 중요한 요소입니다.',
-      },
-      {
-        type: 'image',
-        data: '/healthcare.jpg',
-      },
-      {
-        type: 'gif',
-        data: '/healthcare-animation.gif', // GIF 파일 경로
-      },
-      {
-        type: 'text',
-        data: '운동, 식단, 정신 건강을 포괄하는 헬스케어 전략을 소개합니다.',
-      },
-      {
-        type: 'video',
-        data: '/healthcare-video.mp4',
-      },
-      {
-        type: 'text',
-        data: '의료 기술의 발전으로 건강 관리를 더욱 효율적으로 할 수 있습니다.',
-      },
-    ],
-  },
-  lifestyle: {
-    title: '라이프스타일: 삶의 질을 높이는 방법',
-    content: [
-      {
-        type: 'text',
-        data: '라이프스타일 카테고리에서는 삶을 즐겁게 만드는 다양한 아이디어를 소개합니다.',
-      },
+const CardTitle = styled.h2`
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
 
-      {
-        type: 'image',
-        data: '/lifestyle.jpg',
-      },
-      {
-        type: 'text',
-        data: '취미, 인테리어 팁, 여행 정보 등 다양한 주제를 다룹니다.',
-      },
-      {
-        type: 'gif',
-        data: '/life-style.gif', // GIF 파일 경로
-      },
-    ],
-  },
+const Button = styled(Link)`
+  display: inline-block;
+  background-color: #f97316;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #d8550a;
+  }
+`;
+
+// 타입 정의
+interface SubCategory {
+  id: string;
+  name: string;
+  image: string;
+}
+
+// 동적 데이터
+const subCategoriesData: Record<string, SubCategory[]> = {
+  'senior-digital-class': [
+    { id: 'smartphone', name: '스마트폰 사용법', image: '/images/smartphone.jpg' },
+    { id: 'digital-banking', name: '디지털 뱅킹', image: '/images/digital-banking.jpg' },
+    { id: 'social-media', name: '소셜 미디어 활용', image: '/images/social-media.jpg' },
+  ],
+  'retirement-info': [
+    { id: 'pension', name: '연금 관리', image: '/images/pension.jpg' },
+    { id: 'healthcare', name: '의료 서비스', image: '/images/healthcare.jpg' },
+  ],
+  'well-being': [
+    { id: 'food', name: '웰빙푸드', image: '/images/smartphone.jpg' },
+    { id: 'exercise', name: '노년기 운동', image: '/images/digital-banking.jpg' },
+    { id: 'hobby', name: '건강한 취미', image: '/images/social-media.jpg' },
+  ],
+  'voice-pishing': [
+    { id: 'voice', name: '보이스피싱', image: '/images/voice1.png' },
+    { id: 'sms', name: '스미싱', image: '/images/digital-banking.jpg' },
+    { id: 'loan', name: '대출사기', image: '/images/social-media.jpg' },
+  ],
 };
 
-const BlogPostPage = () => {
-  const { categoryId } = useParams(); // URL에서 categoryId 가져오기
-  const [post, setPost] = useState<any>(null);
+const SubCategoryPage = () => {
+  const params = useParams() as { categoryId: string };
+  const categoryId = params?.categoryId;
 
-  useEffect(() => {
-    if (categoryId && blogPosts[categoryId as keyof typeof blogPosts]) {
-      setPost(blogPosts[categoryId as keyof typeof blogPosts]);
-    } else {
-      setPost(null);
-    }
-  }, [categoryId]);
+  if (!categoryId) {
+    return <p>카테고리 ID가 없습니다.</p>;
+  }
 
-  if (!post) {
-    return (
-      <PostContainer>
-        <Title>포스트를 찾을 수 없습니다.</Title>
-        <ContentText>올바른 URL을 입력했는지 확인해주세요.</ContentText>
-      </PostContainer>
-    );
+  // 현재 카테고리의 세부 카테고리 데이터 가져오기
+  const subCategories = subCategoriesData[categoryId];
+
+  if (!subCategories) {
+    return <p>존재하지 않는 카테고리입니다.</p>;
   }
 
   return (
-    <PostContainer>
-      <Title>{post.title}</Title>
-      {post.content.map((item: any, index: number) => (
-        <Section key={index}>
-          {item.type === 'text' && <ContentText>{item.data}</ContentText>}
-          {item.type === 'image' && <Image src={item.data} alt="포스팅 이미지" />}
-          {item.type === 'gif' && <Image src={item.data} alt="포스팅 GIF" />}
-        </Section>
-      ))}
-    </PostContainer>
+    <Container>
+      <Title>{categoryId} 카테고리</Title>
+      <Grid>
+        {subCategories.map((sub: SubCategory) => (
+          <Card key={sub.id}>
+            <Image src={sub.image} alt={sub.name} />
+            <CardContent>
+              <CardTitle>{sub.name}</CardTitle>
+              <Button href={`/category/${categoryId}/${sub.id}`}>더 보기</Button>
+            </CardContent>
+          </Card>
+        ))}
+      </Grid>
+    </Container>
   );
 };
 
-export default BlogPostPage;
+export default SubCategoryPage;
